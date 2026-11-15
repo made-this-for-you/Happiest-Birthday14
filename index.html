@@ -1,0 +1,2099 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>System Repair Quest 98 — Birthday Edition</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Press Start 2P & VT323 & Fredoka for Saturday Morning Cartoon readability -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --cream: #FFF8E7;
+      --ink: #18181B;
+      --pink: #FF6B9D;
+      --yellow: #FFD93D;
+      --mint: #6BCB77;
+      --sky: #4D96FF;
+      --purple: #9B5DE5;
+      --win-gray: #C0C0C0;
+      --win-blue: #000080;
+    }
+
+    * {
+      box-sizing: border-box;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Fredoka', sans-serif;
+      background-color: #0D0D12;
+      color: var(--ink);
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    .font-pixel {
+      font-family: 'Press Start 2P', monospace;
+      line-height: 1.5;
+    }
+
+    .font-vt {
+      font-family: 'VT323', monospace;
+    }
+
+    /* Saturday Morning Cartoon / 90s Retro Comic Borders & Shadows */
+    .comic-card {
+      background: #FFFFFF;
+      border: 4px solid var(--ink);
+      border-radius: 18px;
+      box-shadow: 7px 7px 0px var(--ink);
+    }
+
+    .comic-window {
+      background: #FFFDF7;
+      border: 4px solid var(--ink);
+      border-radius: 16px;
+      box-shadow: 8px 8px 0px var(--ink);
+      overflow: hidden;
+    }
+
+    .comic-btn {
+      border: 3.5px solid var(--ink);
+      border-radius: 14px;
+      box-shadow: 5px 5px 0px var(--ink);
+      transition: transform 0.12s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.12s ease, background-color 0.15s ease;
+      cursor: pointer;
+    }
+
+    .comic-btn:hover:not(:disabled) {
+      transform: translate(-2px, -2px);
+      box-shadow: 7px 7px 0px var(--ink);
+    }
+
+    .comic-btn:active:not(:disabled) {
+      transform: translate(3px, 3px);
+      box-shadow: 2px 2px 0px var(--ink);
+    }
+
+    .comic-btn:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+
+    /* Warm Cream Polka-Dot Cartoon Background (Lights ON) */
+    .lights-on-bg {
+      background-color: var(--cream);
+      background-image: radial-gradient(#E8D8B5 2.5px, transparent 2.5px);
+      background-size: 28px 28px;
+    }
+
+    /* Dark Room Background (Stage 1) */
+    .dark-room-bg {
+      background: radial-gradient(circle at 50% 45%, #1A1A26 0%, #0D0D12 75%);
+    }
+
+    /* Household Mechanical Flippable Wall Switch */
+    .wall-plate {
+      width: 112px;
+      height: 168px;
+      background: linear-gradient(145deg, #F5EFE0, #DCD3BE);
+      border: 4px solid #000;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.85), inset 0 3px 0 rgba(255,255,255,0.8);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0;
+      position: relative;
+      cursor: pointer;
+      transition: transform 0.15s ease;
+    }
+
+    .wall-plate:hover {
+      transform: scale(1.04);
+    }
+
+    .plate-screw {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #A89F8D;
+      border: 2px solid #222;
+      position: relative;
+    }
+    .plate-screw::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 1px;
+      right: 1px;
+      height: 2px;
+      background: #222;
+      transform: translateY(-50%) rotate(35deg);
+    }
+
+    .switch-housing {
+      width: 44px;
+      height: 76px;
+      background: #2B2B33;
+      border: 3px solid #000;
+      border-radius: 8px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: inset 0 4px 8px rgba(0,0,0,0.8);
+    }
+
+    .switch-bat {
+      width: 30px;
+      height: 44px;
+      border: 3px solid #000;
+      border-radius: 6px;
+      position: absolute;
+      transition: all 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    /* Switch OFF = Flipped Down */
+    .switch-bat.off {
+      bottom: 4px;
+      background: linear-gradient(180deg, #9CA3AF 0%, #E5E7EB 100%);
+      box-shadow: 0 -4px 0 #4B5563, 0 4px 6px rgba(0,0,0,0.6);
+      transform: perspective(120px) rotateX(-22deg);
+    }
+
+    /* Switch ON = Flipped Up */
+    .switch-bat.on {
+      top: 4px;
+      background: linear-gradient(0deg, #FDE047 0%, #FEF9C3 100%);
+      box-shadow: 0 4px 0 #CA8A04, 0 -4px 12px rgba(253, 224, 71, 0.7);
+      transform: perspective(120px) rotateX(22deg);
+    }
+
+    /* Blinking Eyes in the Dark */
+    @keyframes blinkEyes {
+      0%, 92%, 100% { transform: scaleY(1); }
+      96% { transform: scaleY(0.1); }
+    }
+    .spooky-eyes {
+      animation: blinkEyes 4.5s infinite;
+    }
+
+    /* Screen Shake Animations */
+    @keyframes glitchShake {
+      0% { transform: translate(0, 0) rotate(0deg); }
+      15% { transform: translate(-8px, 6px) rotate(-1.5deg); }
+      30% { transform: translate(8px, -6px) rotate(1.5deg); }
+      45% { transform: translate(-6px, -4px) rotate(-1deg); }
+      60% { transform: translate(7px, 5px) rotate(1deg); }
+      75% { transform: translate(-4px, 3px) rotate(-0.5deg); }
+      100% { transform: translate(0, 0) rotate(0deg); }
+    }
+    .shake-intense {
+      animation: glitchShake 0.35s infinite;
+    }
+
+    @keyframes popIn {
+      0% { transform: scale(0.65); opacity: 0; }
+      75% { transform: scale(1.05); opacity: 1; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .animate-pop {
+      animation: popIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    /* Classic 90s Windows Error Window */
+    .win95-popup {
+      background: #C0C0C0;
+      border-top: 3px solid #FFFFFF;
+      border-left: 3px solid #FFFFFF;
+      border-right: 3px solid #404040;
+      border-bottom: 3px solid #404040;
+      box-shadow: 5px 5px 0px rgba(0,0,0,0.85);
+      font-family: 'VT323', monospace;
+    }
+    .win95-titlebar {
+      background: linear-gradient(90deg, #000080, #1084D0);
+      color: white;
+      padding: 3px 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: bold;
+      letter-spacing: 0.5px;
+    }
+
+    /* Black Stone SVG Styling */
+    @keyframes floatStone {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-4px) rotate(4deg); }
+    }
+    .stone-glow {
+      filter: drop-shadow(0 0 6px rgba(168, 85, 247, 0.75));
+      animation: floatStone 2.8s ease-in-out infinite;
+    }
+
+    /* Letter Tiles & Slots */
+    .letter-tile {
+      width: 44px;
+      height: 48px;
+      background: #FFD93D;
+      border: 3px solid #18181B;
+      border-radius: 10px;
+      box-shadow: 3px 3px 0px #18181B;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 15px;
+      color: #18181B;
+      cursor: grab;
+      transition: transform 0.1s ease, background-color 0.15s ease;
+    }
+    .letter-tile:hover {
+      background: #FFE570;
+      transform: translateY(-2px);
+    }
+    .letter-tile:active {
+      cursor: grabbing;
+      transform: scale(0.95);
+    }
+
+    .letter-slot {
+      width: 44px;
+      height: 48px;
+      background: #F3EAD3;
+      border: 3px dashed #18181B;
+      border-radius: 10px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 15px;
+      color: #18181B;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .letter-slot.filled {
+      background: #6BCB77;
+      border-style: solid;
+      box-shadow: 3px 3px 0px #18181B;
+    }
+    .letter-slot.drag-over {
+      background: #BAE6FD;
+      transform: scale(1.08);
+    }
+
+    @media (max-width: 480px) {
+      .letter-tile, .letter-slot {
+        width: 34px;
+        height: 40px;
+        font-size: 12px;
+        border-width: 2.5px;
+      }
+    }
+
+    /* Repair Machine Lever */
+    .lever-arm {
+      transform-origin: bottom center;
+      transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .lever-arm.up {
+      transform: rotate(-28deg);
+    }
+    .lever-arm.down {
+      transform: rotate(35deg);
+    }
+
+    @keyframes spinGear {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .gear-spin-fast {
+      animation: spinGear 0.5s linear infinite;
+    }
+    .gear-spin-slow {
+      animation: spinGear 6s linear infinite;
+    }
+
+    /* Confetti Canvas */
+    #confetti-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 40;
+    }
+  </style>
+</head>
+<body class="dark-room-bg">
+
+  <!-- Top Persistent HUD (Hidden on Stage 1 and Stage 13) -->
+  <header id="hud-bar" class="hidden sticky top-0 z-30 w-full bg-[#FFD93D] border-b-4 border-[#18181B] px-3 py-2.5 shadow-[0_4px_0_#18181B]">
+    <div class="max-w-4xl mx-auto flex flex-wrap items-center justify-between gap-2">
+      <div class="flex items-center gap-2">
+        <span class="inline-block bg-[#18181B] text-[#FFD93D] font-pixel text-[10px] sm:text-xs px-2.5 py-1.5 rounded-lg">
+          SYS_FIX.EXE
+        </span>
+        <span id="stage-badge" class="font-bold text-sm sm:text-base bg-white border-2 border-[#18181B] px-2.5 py-0.5 rounded-full">
+          Stage 2/13
+        </span>
+      </div>
+
+      <!-- Black Rock Inventory Tracker (X/9) -->
+      <div class="flex items-center gap-2 bg-[#18181B] text-white px-3 py-1.5 rounded-xl border-2 border-[#18181B]">
+        <span class="font-pixel text-[10px] sm:text-xs text-[#FFD93D]">BLACK ROCKS:</span>
+        <div id="hud-stones-grid" class="flex items-center gap-1">
+          <!-- 9 mini rock slots populated by JS -->
+        </div>
+        <span id="hud-stone-count" class="font-pixel text-xs text-[#6BCB77] ml-1">(0/9)</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Stage Container -->
+  <main id="app-container" class="relative z-10 min-h-screen flex flex-col items-center justify-center p-4 sm:p-6">
+    <!-- Dynamic stage content injected here -->
+  </main>
+
+  <!-- Reusable Comic Modal / Popup Overlay -->
+  <div id="comic-modal" class="hidden fixed inset-0 z-50 bg-black/65 backdrop-blur-[2px] flex items-center justify-center p-4">
+    <div id="comic-modal-box" class="comic-window w-full max-w-md animate-pop">
+      <div id="comic-modal-header" class="bg-[#FF6B9D] border-b-4 border-[#18181B] px-4 py-2.5 flex items-center justify-between">
+        <span id="comic-modal-title" class="font-pixel text-xs sm:text-sm text-[#18181B]">SYSTEM MESSAGE</span>
+        <button id="comic-modal-close-x" onclick="closeModal()" class="w-7 h-7 bg-white border-2 border-[#18181B] rounded-md font-bold text-sm flex items-center justify-center hover:bg-red-200">✕</button>
+      </div>
+      <div id="comic-modal-body" class="p-5 sm:p-6 text-center space-y-4">
+        <!-- Modal content injected dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Confetti Canvas for Stage 13 -->
+  <canvas id="confetti-canvas" class="hidden"></canvas>
+
+  <script>
+    /*************************************************************************
+     * 1. RETRO WEB AUDIO SYNTHESIZER (No external audio files needed)
+     *************************************************************************/
+    const SoundFX = (() => {
+      let ctx = null;
+      let bgmInterval = null;
+      let isMuted = false;
+
+      function init() {
+        if (!ctx) {
+          const AudioCtx = window.AudioContext || window.webkitAudioContext;
+          if (AudioCtx) ctx = new AudioCtx();
+        }
+        if (ctx && ctx.state === 'suspended') {
+          ctx.resume();
+        }
+      }
+
+      function playTone(freq, type = 'square', duration = 0.12, vol = 0.12, delay = 0) {
+        if (isMuted) return;
+        init();
+        if (!ctx) return;
+        try {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = type;
+          osc.frequency.setValueAtTime(freq, ctx.currentTime + delay);
+
+          gain.gain.setValueAtTime(vol, ctx.currentTime + delay);
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + delay + duration);
+
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+
+          osc.start(ctx.currentTime + delay);
+          osc.stop(ctx.currentTime + delay + duration);
+        } catch (e) {}
+      }
+
+      return {
+        switchClick() {
+          playTone(280, 'square', 0.05, 0.18, 0);
+          playTone(520, 'triangle', 0.06, 0.18, 0.04);
+        },
+        errorBeep() {
+          playTone(160, 'sawtooth', 0.18, 0.15, 0);
+          playTone(115, 'square', 0.24, 0.15, 0.12);
+        },
+        wrongBuzz() {
+          playTone(190, 'sawtooth', 0.15, 0.12, 0);
+          playTone(145, 'sawtooth', 0.2, 0.12, 0.12);
+        },
+        tilePop() {
+          playTone(540, 'triangle', 0.07, 0.12, 0);
+        },
+        stoneCollect() {
+          playTone(523.25, 'square', 0.1, 0.13, 0);     // C5
+          playTone(659.25, 'square', 0.1, 0.13, 0.09);  // E5
+          playTone(783.99, 'square', 0.1, 0.13, 0.18);  // G5
+          playTone(1046.5, 'square', 0.28, 0.15, 0.27); // C6
+        },
+        machineRumble() {
+          for (let i = 0; i < 12; i++) {
+            playTone(90 + (i % 3) * 35, 'sawtooth', 0.12, 0.14, i * 0.11);
+          }
+          playTone(523.25, 'square', 0.15, 0.15, 1.45);
+          playTone(783.99, 'square', 0.15, 0.15, 1.6);
+          playTone(1046.5, 'square', 0.4, 0.18, 1.75);
+        },
+        startBirthdayChiptune() {
+          this.stopBgm();
+          // Sweet, gentle retro music-box / chiptune loop (Happy Birthday melody)
+          const notes = [
+            // Hap-py Birth-day to you
+            { f: 392, d: 0.28 }, { f: 392, d: 0.28 }, { f: 440, d: 0.55 }, { f: 392, d: 0.55 }, { f: 523.25, d: 0.55 }, { f: 493.88, d: 1.0 },
+            // Hap-py Birth-day to you
+            { f: 392, d: 0.28 }, { f: 392, d: 0.28 }, { f: 440, d: 0.55 }, { f: 392, d: 0.55 }, { f: 587.33, d: 0.55 }, { f: 523.25, d: 1.0 },
+            // Hap-py Birth-day dear Best-ie
+            { f: 392, d: 0.28 }, { f: 392, d: 0.28 }, { f: 783.99, d: 0.55 }, { f: 659.25, d: 0.55 }, { f: 523.25, d: 0.55 }, { f: 493.88, d: 0.55 }, { f: 440, d: 0.9 },
+            // Hap-py Birth-day to you!
+            { f: 698.46, d: 0.28 }, { f: 698.46, d: 0.28 }, { f: 659.25, d: 0.55 }, { f: 523.25, d: 0.55 }, { f: 587.33, d: 0.55 }, { f: 523.25, d: 1.2 }
+          ];
+
+          const playLoop = () => {
+            if (isMuted) return;
+            let offset = 0;
+            notes.forEach(n => {
+              playTone(n.f, 'triangle', n.d * 0.85, 0.08, offset);
+              offset += n.d;
+            });
+          };
+
+          playLoop();
+          bgmInterval = setInterval(playLoop, 12800);
+        },
+        stopBgm() {
+          if (bgmInterval) {
+            clearInterval(bgmInterval);
+            bgmInterval = null;
+          }
+        },
+        toggleMute() {
+          isMuted = !isMuted;
+          if (isMuted) {
+            this.stopBgm();
+          } else if (state.stage === 13) {
+            this.startBirthdayChiptune();
+          }
+          return isMuted;
+        },
+        getMuted() {
+          return isMuted;
+        }
+      };
+    })();
+
+    /*************************************************************************
+     * 2. GLOBAL APPLICATION STATE
+     *************************************************************************/
+    const state = {
+      stage: 1,                  // 1 through 13
+      stonesCollected: 0,        // 0 through 9
+      stage5Choice: null,        // '14' or '1' (remembered for Stage 7 prohibition)
+      isWebsiteRepaired: false,  // False initially; True after Stage 12 lever pull
+      switchOn: false,           // Wall toggle switch state on Stage 1
+      selectedApps: [],          // For Stage 6 multi-select
+      depositedStones: 0,        // For Stage 12 machine
+      leverPulled: false,        // For Stage 12 lever
+      activePuzzle: null         // Holds current drag/tap spelling puzzle state
+    };
+
+    // Helper: Render cute SVG Black Stone / Black Rock
+    function getBlackStoneSVG(size = 24, glowing = true) {
+      return `
+        <svg width="${size}" height="${size}" viewBox="0 0 32 32" class="${glowing ? 'stone-glow' : ''}" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="10,4 22,4 28,12 25,25 16,29 7,25 4,12" fill="#27272A" stroke="#000000" stroke-width="2.5" stroke-linejoin="round"/>
+          <polygon points="10,4 16,11 22,4" fill="#52525B"/>
+          <polygon points="4,12 16,11 11,22 7,25" fill="#18181B"/>
+          <polygon points="28,12 16,11 21,22 25,25" fill="#3F3F46"/>
+          <circle cx="13" cy="9" r="1.5" fill="#E9D5FF"/>
+          <circle cx="19" cy="15" r="1" fill="#C084FC"/>
+        </svg>
+      `;
+    }
+
+    // Update Top HUD
+    function updateHUD() {
+      const hud = document.getElementById('hud-bar');
+      const body = document.body;
+
+      if (state.stage === 1 || state.stage === 13) {
+        hud.classList.add('hidden');
+      } else {
+        hud.classList.remove('hidden');
+      }
+
+      if (state.stage === 1) {
+        body.classList.remove('lights-on-bg');
+        body.classList.add('dark-room-bg');
+      } else {
+        body.classList.remove('dark-room-bg');
+        body.classList.add('lights-on-bg');
+      }
+
+      document.getElementById('stage-badge').textContent = `Stage ${state.stage}/13`;
+      document.getElementById('hud-stone-count').textContent = `(${state.stonesCollected}/9)`;
+
+      const grid = document.getElementById('hud-stones-grid');
+      let html = '';
+      for (let i = 1; i <= 9; i++) {
+        if (i <= state.stonesCollected) {
+          html += `<span title="Black Rock #${i}">${getBlackStoneSVG(18, false)}</span>`;
+        } else {
+          html += `<span class="w-4 h-4 rounded-full border border-dashed border-gray-500 inline-block opacity-45"></span>`;
+        }
+      }
+      grid.innerHTML = html;
+    }
+
+    // Award a Black Stone safely (prevents double-counting)
+    function awardStone(targetCount) {
+      if (state.stonesCollected < targetCount) {
+        state.stonesCollected = targetCount;
+        SoundFX.stoneCollect();
+        updateHUD();
+      }
+    }
+
+    // Modal Utilities
+    function showModal({ title = "ALERT!", headerColor = "#FF6B9D", bodyHTML = "", showCloseX = true }) {
+      const modal = document.getElementById('comic-modal');
+      const header = document.getElementById('comic-modal-header');
+      const titleEl = document.getElementById('comic-modal-title');
+      const bodyEl = document.getElementById('comic-modal-body');
+      const closeX = document.getElementById('comic-modal-close-x');
+
+      header.style.backgroundColor = headerColor;
+      titleEl.textContent = title;
+      bodyEl.innerHTML = bodyHTML;
+      closeX.style.display = showCloseX ? 'flex' : 'none';
+
+      modal.classList.remove('hidden');
+    }
+
+    function closeModal() {
+      document.getElementById('comic-modal').classList.add('hidden');
+    }
+
+    function goToStage(num) {
+      closeModal();
+      state.stage = num;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      renderStage();
+    }
+
+    /*************************************************************************
+     * 3. UNIVERSAL DRAG-AND-DROP + TAP-TO-PLACE SPELLING ENGINE
+     *************************************************************************/
+    function createSpellingPuzzle({ containerId, letters, groups, onCheck }) {
+      // groups: e.g. [2] for "ME", [10] for "BHAGYAWAAN", [4, 4] for "GOOD GIRL", [5, 4] for "AAPKO YAAD"
+      const totalSlots = groups.reduce((a, b) => a + b, 0);
+      const bank = letters.map((char, idx) => ({ id: `tile-${idx}-${Math.random().toString(36).slice(2, 6)}`, char, used: false }));
+      const slots = Array(totalSlots).fill(null);
+
+      const puzzleObj = {
+        containerId,
+        bank,
+        slots,
+        groups,
+        onCheck,
+        draggedTileId: null,
+        draggedFromSlot: null
+      };
+
+      state.activePuzzle = puzzleObj;
+      renderSpellingPuzzle(puzzleObj);
+      return puzzleObj;
+    }
+
+    function renderSpellingPuzzle(p) {
+      const container = document.getElementById(p.containerId);
+      if (!container) return;
+
+      let slotIndex = 0;
+      let slotsHTML = `<div class="flex flex-wrap items-center justify-center gap-3 sm:gap-5 my-4">`;
+
+      p.groups.forEach((groupLen) => {
+        slotsHTML += `<div class="flex items-center gap-1.5 sm:gap-2">`;
+        for (let i = 0; i < groupLen; i++) {
+          const currentIdx = slotIndex;
+          const placed = p.slots[currentIdx];
+          slotsHTML += `
+            <div
+              class="letter-slot ${placed ? 'filled' : ''}"
+              data-slot="${currentIdx}"
+              onclick="handleSlotTap(${currentIdx})"
+              ondragover="handleSlotDragOver(event, ${currentIdx})"
+              ondragleave="handleSlotDragLeave(event)"
+              ondrop="handleSlotDrop(event, ${currentIdx})"
+              title="${placed ? 'Tap to remove letter' : 'Drop or tap a letter below'}"
+            >
+              ${placed ? placed.char : ''}
+            </div>
+          `;
+          slotIndex++;
+        }
+        slotsHTML += `</div>`;
+      });
+      slotsHTML += `</div>`;
+
+      // Letter Bank
+      let bankHTML = `<div class="flex flex-wrap items-center justify-center gap-2 sm:gap-2.5 p-3 bg-[#FFF8E7] border-3 border-[#18181B] rounded-xl">`;
+      p.bank.forEach((tile) => {
+        if (tile.used) {
+          bankHTML += `<div class="w-[34px] h-[40px] sm:w-[44px] sm:h-[48px] rounded-lg border-2 border-dashed border-gray-400 bg-gray-200/50"></div>`;
+        } else {
+          bankHTML += `
+            <div
+              class="letter-tile"
+              draggable="true"
+              onclick="handleBankTileTap('${tile.id}')"
+              ondragstart="handleTileDragStart(event, '${tile.id}')"
+            >
+              ${tile.char}
+            </div>
+          `;
+        }
+      });
+      bankHTML += `</div>`;
+
+      container.innerHTML = `
+        <p class="text-xs sm:text-sm text-gray-600 font-semibold">Drag letters OR tap tiles to fill the boxes:</p>
+        ${slotsHTML}
+        ${bankHTML}
+        <div class="mt-3 flex justify-center gap-3">
+          <button type="button" onclick="clearSpellingPuzzle()" class="comic-btn bg-white px-4 py-1.5 text-xs sm:text-sm font-bold">
+            ↺ Clear Letters
+          </button>
+        </div>
+      `;
+    }
+
+    function handleBankTileTap(tileId) {
+      const p = state.activePuzzle;
+      if (!p) return;
+      const emptyIdx = p.slots.findIndex(s => s === null);
+      if (emptyIdx === -1) return;
+
+      const tile = p.bank.find(t => t.id === tileId);
+      if (!tile || tile.used) return;
+
+      tile.used = true;
+      p.slots[emptyIdx] = tile;
+      SoundFX.tilePop();
+      renderSpellingPuzzle(p);
+      checkSpellingCompletion(p);
+    }
+
+    function handleSlotTap(slotIdx) {
+      const p = state.activePuzzle;
+      if (!p) return;
+      const placed = p.slots[slotIdx];
+      if (!placed) return;
+
+      placed.used = false;
+      p.slots[slotIdx] = null;
+      SoundFX.tilePop();
+      renderSpellingPuzzle(p);
+    }
+
+    function handleTileDragStart(e, tileId) {
+      const p = state.activePuzzle;
+      if (!p) return;
+      p.draggedTileId = tileId;
+      if (e.dataTransfer) {
+        e.dataTransfer.setData('text/plain', tileId);
+      }
+    }
+
+    function handleSlotDragOver(e, slotIdx) {
+      e.preventDefault();
+      e.currentTarget.classList.add('drag-over');
+    }
+
+    function handleSlotDragLeave(e) {
+      e.currentTarget.classList.remove('drag-over');
+    }
+
+    function handleSlotDrop(e, slotIdx) {
+      e.preventDefault();
+      e.currentTarget.classList.remove('drag-over');
+      const p = state.activePuzzle;
+      if (!p) return;
+
+      const tileId = p.draggedTileId || (e.dataTransfer && e.dataTransfer.getData('text/plain'));
+      const tile = p.bank.find(t => t.id === tileId);
+      if (!tile || tile.used) return;
+
+      // Return existing tile if slot occupied
+      if (p.slots[slotIdx]) {
+        p.slots[slotIdx].used = false;
+      }
+
+      tile.used = true;
+      p.slots[slotIdx] = tile;
+      p.draggedTileId = null;
+      SoundFX.tilePop();
+      renderSpellingPuzzle(p);
+      checkSpellingCompletion(p);
+    }
+
+    function clearSpellingPuzzle() {
+      const p = state.activePuzzle;
+      if (!p) return;
+      p.bank.forEach(t => t.used = false);
+      p.slots.fill(null);
+      SoundFX.tilePop();
+      renderSpellingPuzzle(p);
+    }
+
+    function checkSpellingCompletion(p) {
+      if (p.slots.every(s => s !== null)) {
+        const word = p.slots.map(s => s.char).join('');
+        setTimeout(() => {
+          p.onCheck(word, p);
+        }, 180);
+      }
+    }
+
+    /*************************************************************************
+     * 4. STAGE RENDERERS (STAGES 1 TO 13)
+     *************************************************************************/
+    function renderStage() {
+      updateHUD();
+      const app = document.getElementById('app-container');
+
+      switch (state.stage) {
+        case 1: renderStage1(app); break;
+        case 2: renderStage2(app); break;
+        case 3: renderStage3(app); break;
+        case 4: renderStage4(app); break;
+        case 5: renderStage5(app); break;
+        case 6: renderStage6(app); break;
+        case 7: renderStage7(app); break;
+        case 8: renderStage8(app); break;
+        case 9: renderStage9(app); break;
+        case 10: renderStage10(app); break;
+        case 11: renderStage11(app); break;
+        case 12: renderStage12(app); break;
+        case 13: renderStage13(app); break;
+      }
+    }
+
+    /* ---------------- STAGE 1: DARK ROOM + FLIPPABLE SWITCH ---------------- */
+    function renderStage1(app) {
+      state.switchOn = false;
+      app.innerHTML = `
+        <div id="dark-room-wrapper" class="relative w-full max-w-2xl flex flex-col items-center justify-center text-center py-10 px-4">
+          <!-- Subtle Cartoon Eyes Peeking in the Dark -->
+          <div class="spooky-eyes flex gap-16 mb-8 opacity-40">
+            <div class="flex gap-2">
+              <div class="w-4 h-5 bg-yellow-200 rounded-full flex items-center justify-center"><div class="w-2 h-2 bg-black rounded-full"></div></div>
+              <div class="w-4 h-5 bg-yellow-200 rounded-full flex items-center justify-center"><div class="w-2 h-2 bg-black rounded-full"></div></div>
+            </div>
+            <div class="flex gap-2 mt-4">
+              <div class="w-3.5 h-4 bg-purple-300 rounded-full flex items-center justify-center"><div class="w-1.5 h-1.5 bg-black rounded-full"></div></div>
+              <div class="w-3.5 h-4 bg-purple-300 rounded-full flex items-center justify-center"><div class="w-1.5 h-1.5 bg-black rounded-full"></div></div>
+            </div>
+          </div>
+
+          <!-- Main Prompt + Mechanical Household Flip Switch Side by Side -->
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-8 sm:gap-10 bg-[#14141D] border-4 border-[#2E2E3E] p-7 sm:p-10 rounded-3xl shadow-[0_12px_40px_rgba(0,0,0,0.9)]">
+            <div class="max-w-sm text-center sm:text-left space-y-3">
+              <p class="font-pixel text-base sm:text-xl text-[#F8FAFC] leading-relaxed">
+                its too dark in here⚫️, gotta turn the lights on👀!
+              </p>
+              <p class="font-vt text-xl text-gray-400">
+                (Flip the wall switch →)
+              </p>
+            </div>
+
+            <!-- Realistic Cartoon Household Flippable Toggle Switch -->
+            <div class="flex flex-col items-center gap-2">
+              <div id="wall-switch-plate" class="wall-plate" onclick="flipLightSwitch()" role="button" aria-label="Flip light switch" tabindex="0">
+                <div class="plate-screw"></div>
+                <span class="font-pixel text-[8px] text-gray-600 tracking-widest">ON</span>
+                <div class="switch-housing">
+                  <div id="switch-bat" class="switch-bat off"></div>
+                </div>
+                <span class="font-pixel text-[8px] text-gray-600 tracking-widest">OFF</span>
+                <div class="plate-screw"></div>
+              </div>
+              <span id="switch-hint" class="font-pixel text-[9px] text-yellow-300 animate-pulse">TAP TO FLIP</span>
+            </div>
+          </div>
+
+          <!-- Container for Cascading Glitchy Windows Error Popups -->
+          <div id="glitch-popup-layer" class="fixed inset-0 pointer-events-none z-40 overflow-hidden"></div>
+        </div>
+      `;
+    }
+
+    function flipLightSwitch() {
+      if (state.switchOn) return;
+      state.switchOn = true;
+      SoundFX.switchClick();
+
+      const bat = document.getElementById('switch-bat');
+      if (bat) {
+        bat.classList.remove('off');
+        bat.classList.add('on');
+      }
+
+      // CASE A: Website has been repaired at Stage 12 -> Lights actually turn ON to Stage 13!
+      if (state.isWebsiteRepaired) {
+        document.body.style.transition = 'background-color 0.7s ease';
+        document.body.style.backgroundColor = '#FFF8E7';
+        setTimeout(() => {
+          goToStage(13);
+        }, 650);
+        return;
+      }
+
+      // CASE B: First visit -> Glitchy 90s Windows Error Popups cascade!
+      const wrapper = document.getElementById('dark-room-wrapper');
+      const layer = document.getElementById('glitch-popup-layer');
+      layer.classList.remove('pointer-events-none');
+      wrapper.classList.add('shake-intense');
+
+      const errorMessages = [
+        { title: "SYSTEM_CRASH.EXE", msg: "CRITICAL ERROR 0x000CUTENESS: Voltage spike detected!" },
+        { title: "FATAL EXCEPTION", msg: "WARNING: User cuteness exceeds server capacity!" },
+        { title: "KERNEL32.DLL", msg: "Cannot render lights! System overloaded🎀✨️" },
+        { title: "BLUE_SCREEN_98", msg: "9 core memory stones dislodged from motherboard!" },
+        { title: "EMERGENCY_HALT", msg: "Website crashed! Manual repair required." }
+      ];
+
+      errorMessages.forEach((err, index) => {
+        setTimeout(() => {
+          SoundFX.errorBeep();
+          const topPos = 12 + (index * 11) + (Math.random() * 6);
+          const leftPos = 8 + (index * 9) + (Math.random() * 10);
+
+          const popup = document.createElement('div');
+          popup.className = 'win95-popup w-72 sm:w-80 animate-pop fixed z-40';
+          popup.style.top = `${Math.min(topPos, 68)}%`;
+          popup.style.left = `${Math.min(leftPos, 52)}%`;
+          popup.innerHTML = `
+            <div class="win95-titlebar">
+              <span>⚠️ ${err.title}</span>
+              <span class="bg-[#C0C0C0] text-black px-1.5 border border-black text-xs">X</span>
+            </div>
+            <div class="p-3 flex items-start gap-3 text-black">
+              <div class="text-2xl">❌</div>
+              <div class="text-lg leading-tight">${err.msg}</div>
+            </div>
+          `;
+          layer.appendChild(popup);
+
+          // After the final popup appears, stop violent shake and show diagnostic button
+          if (index === errorMessages.length - 1) {
+            setTimeout(() => {
+              wrapper.classList.remove('shake-intense');
+              const proceedCard = document.createElement('div');
+              proceedCard.className = 'fixed inset-0 bg-black/75 flex items-center justify-center p-4 z-50 animate-pop';
+              proceedCard.innerHTML = `
+                <div class="win95-popup w-full max-w-md border-4 border-black">
+                  <div class="win95-titlebar text-lg">
+                    <span>⚠️ CRITICAL SYSTEM FAILURE</span>
+                    <span>[!]</span>
+                  </div>
+                  <div class="p-6 text-center space-y-4 bg-[#C0C0C0] text-black">
+                    <p class="font-pixel text-xs sm:text-sm text-red-700 leading-relaxed">
+                      CRASH DETECTED! Lights failed to initialize.
+                    </p>
+                    <p class="text-xl">Opening Emergency Repair Manual...</p>
+                    <button onclick="goToStage(2)" class="comic-btn bg-[#FFD93D] text-black font-pixel text-xs px-5 py-3">
+                      Open Error Report →
+                    </button>
+                  </div>
+                </div>
+              `;
+              layer.appendChild(proceedCard);
+            }, 650);
+          }
+        }, index * 320);
+      });
+    }
+
+    /* ---------------- STAGE 2: DIRECTION SCREEN (LIGHTS ON) ---------------- */
+    function renderStage2(app) {
+      app.innerHTML = `
+        <div class="comic-window w-full max-w-2xl animate-pop">
+          <div class="bg-[#FF6B9D] border-b-4 border-[#18181B] px-5 py-3 flex items-center justify-between">
+            <span class="font-pixel text-xs sm:text-sm text-[#18181B]">DIAGNOSTIC_REPORT.TXT</span>
+            <div class="flex gap-1.5">
+              <span class="w-3.5 h-3.5 rounded-full bg-[#FFD93D] border-2 border-[#18181B]"></span>
+              <span class="w-3.5 h-3.5 rounded-full bg-[#6BCB77] border-2 border-[#18181B]"></span>
+            </div>
+          </div>
+
+          <div class="p-6 sm:p-8 text-center space-y-5">
+            <h1 class="font-pixel text-lg sm:text-2xl text-[#18181B] leading-snug">
+              Some Error has occured🤕
+            </h1>
+
+            <div class="bg-[#FFF8E7] border-3 border-[#18181B] rounded-2xl p-4 sm:p-5 space-y-2 shadow-[4px_4px_0_#18181B]">
+              <p class="text-lg sm:text-xl font-bold text-[#18181B]">
+                The website has been overwhelmed by the cuteness of the user🎀✨️
+              </p>
+              <p class="text-base sm:text-lg font-semibold text-[#9B5DE5]">
+                So now, its her responsibility to fix it!😌
+              </p>
+            </div>
+
+            <!-- Instructions Box -->
+            <div class="text-left bg-[#E0F2FE] border-3 border-[#18181B] rounded-2xl p-5 space-y-3">
+              <h2 class="font-pixel text-xs sm:text-sm text-[#18181B] underline decoration-wavy decoration-[#FF6B9D]">
+                REPAIR INSTRUCTIONS:
+              </h2>
+              <ol class="list-decimal list-inside space-y-2.5 text-base sm:text-lg font-semibold text-[#18181B]">
+                <li>Fix errors throughout the website to collect materials</li>
+                <li>Collect 9 materials and deposit them to the machine.</li>
+                <li>Pull the lever so the website is fixed</li>
+                <li class="italic text-gray-700">I forgot what to be written here</li>
+              </ol>
+            </div>
+
+            <div class="pt-2">
+              <button onclick="goToStage(3)" class="comic-btn bg-[#6BCB77] text-[#18181B] font-pixel text-xs sm:text-sm px-7 py-4">
+                Start Fixing Errors! 🔧→
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    /* ---------------- STAGE 3: ERROR #1 (LIE DETECTOR) ---------------- */
+    function renderStage3(app) {
+      app.innerHTML = `
+        <div class="comic-window w-full max-w-2xl animate-pop">
+          <div class="bg-[#FFD93D] border-b-4 border-[#18181B] px-5 py-3 flex items-center justify-between">
+            <span class="font-pixel text-xs text-[#18181B]">ERROR_01 // LIE_DETECTOR</span>
+            <span class="text-xl">🕵️‍♂️</span>
+          </div>
+
+          <div class="p-6 sm:p-8 space-y-5">
+            <h1 class="font-pixel text-base sm:text-xl text-[#18181B] leading-relaxed">
+              Error#1: There are 2 truth among following.. spot the lie😬
+            </h1>
+            <p class="text-lg font-bold text-[#4D96FF]">
+              the following have been said by 'him':
+            </p>
+
+            <div class="space-y-3.5">
+              <button onclick="handleStage3Choice(1)" class="comic-btn w-full text-left bg-[#FFF8E7] hover:bg-[#FEF08A] p-4 text-base sm:text-lg font-semibold flex items-start gap-3">
+                <span class="font-pixel text-xs bg-[#18181B] text-white px-2.5 py-1.5 rounded-lg mt-0.5">1</span>
+                <span>Im 'NOT' a smart, handsome, genius, loyal, generous, cool, mastikhor, good listener, perfect bf material guy..</span>
+              </button>
+
+              <button onclick="handleStage3Choice(2)" class="comic-btn w-full text-left bg-[#FFF8E7] hover:bg-[#FEF08A] p-4 text-base sm:text-lg font-semibold flex items-start gap-3">
+                <span class="font-pixel text-xs bg-[#18181B] text-white px-2.5 py-1.5 rounded-lg mt-0.5">2</span>
+                <span>Jab khubsurat ko khubsurati se pyaar hua toh khudsurat ne khubsurati se puchha, ki khubsurti kaisi hoti hai? Tab khubsurti ne khubsurat ko badi hi khubsurati se jawab diya ki jo yeh khubsurat panktiya padh rahi hain, khubsurati unki hi tarah khubsurat hoti hai🎀✨️😉</span>
+              </button>
+
+              <button onclick="handleStage3Choice(3)" class="comic-btn w-full text-left bg-[#FFF8E7] hover:bg-[#FEF08A] p-4 text-base sm:text-lg font-semibold flex items-start gap-3">
+                <span class="font-pixel text-xs bg-[#18181B] text-white px-2.5 py-1.5 rounded-lg mt-0.5">3</span>
+                <span>mujhe chashme wale log bahut pasand hain✨️👉👈🎀</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function handleStage3Choice(opt) {
+      if (opt === 2 || opt === 3) {
+        SoundFX.wrongBuzz();
+        showModal({
+          title: "FACT CHECKER!",
+          headerColor: "#FFD93D",
+          bodyHTML: `
+            <div class="text-4xl">🧐</div>
+            <p class="text-xl font-bold text-[#18181B]">thats 100% factually truths!.. find the lie!</p>
+            <button onclick="closeModal()" class="comic-btn bg-[#FFD93D] font-pixel text-xs px-5 py-2.5">Try Again</button>
+          `
+        });
+      } else if (opt === 1) {
+        awardStone(1);
+        showModal({
+          title: "LIE CAUGHT! +1 BLACK ROCK",
+          headerColor: "#6BCB77",
+          showCloseX: false,
+          bodyHTML: `
+            <div class="flex justify-center">${getBlackStoneSVG(52, true)}</div>
+            <p class="text-xl font-bold text-[#18181B]">
+              hmm..🙃 i think i know why you are in such a hurry to catch me lying😏
+            </p>
+            <div class="bg-[#FFF8E7] border-2 border-[#18181B] rounded-xl p-2 font-pixel text-xs text-[#18181B]">
+              Black Rock Collected: (1/9)
+            </div>
+            <button onclick="goToStage(4)" class="comic-btn bg-[#6BCB77] font-pixel text-xs px-6 py-3">
+              Next Error →
+            </button>
+          `
+        });
+      }
+    }
+
+    /* ---------------- STAGE 4: ERROR #2 (DAD-JOKE TRAP) ---------------- */
+    function renderStage4(app) {
+      app.innerHTML = `
+        <div class="comic-window w-full max-w-xl animate-pop">
+          <div class="bg-[#4D96FF] border-b-4 border-[#18181B] px-5 py-3 flex items-center justify-between">
+            <span class="font-pixel text-xs text-white">ERROR_02 // MENU_GLITCH</span>
+            <span class="text-xl">🍽️</span>
+          </div>
+
+          <div class="p-6 sm:p-8 text-center space-y-5">
+            <h1 class="font-pixel text-base sm:text-xl text-[#18181B] leading-relaxed">
+              Error#2: what would u like to eat?🍽
+            </h1>
+            <p class="text-lg sm:text-xl font-bold text-gray-800">
+              would you rather eat a goat or a matter baby
+            </p>
+
+            <div class="space-y-3 max-w-md mx-auto">
+              <button id="s4-opt-1" onclick="handleStage4Choice(1)" class="comic-btn w-full bg-[#FFF8E7] hover:bg-[#FEF08A] py-3.5 px-5 text-lg font-bold">
+                1. Goat
+              </button>
+              <button id="s4-opt-2" onclick="handleStage4Choice(2)" class="comic-btn w-full bg-[#FFF8E7] hover:bg-[#FEF08A] py-3.5 px-5 text-lg font-bold">
+                2. Matter baby
+              </button>
+              <button id="s4-opt-3" onclick="handleStage4Choice(3)" class="comic-btn w-full bg-[#FFF8E7] hover:bg-[#FEF08A] py-3.5 px-5 text-lg font-bold">
+                3. What is the matter baby?
+              </button>
+            </div>
+
+            <!-- Punchline & Next Error Area (Revealed when Option 3 clicked) -->
+            <div id="s4-success-area" class="hidden pt-3 space-y-4 animate-pop">
+              <div class="bg-[#DCFCE7] border-3 border-[#18181B] rounded-2xl p-4 space-y-2">
+                <p class="text-xl sm:text-2xl font-bold text-[#18181B]">
+                  nothing dear, what about you?✨️😋
+                </p>
+                <div class="flex items-center justify-center gap-2 pt-1">
+                  ${getBlackStoneSVG(30, true)}
+                  <span class="font-pixel text-xs text-green-800">+1 Black Rock (2/9)</span>
+                </div>
+              </div>
+              <button onclick="goToStage(5)" class="comic-btn bg-[#FFD93D] font-pixel text-xs sm:text-sm px-6 py-3.5">
+                Next Error →
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function handleStage4Choice(opt) {
+      if (opt === 1) {
+        SoundFX.wrongBuzz();
+        showModal({
+          title: "WAIT WHAT?!",
+          headerColor: "#FFD93D",
+          bodyHTML: `
+            <div class="text-4xl">🐐</div>
+            <p class="text-xl font-bold">Baaah! Not the goat! Read the other options carefully😂</p>
+            <button onclick="closeModal()" class="comic-btn bg-[#FFD93D] font-pixel text-xs px-5 py-2.5">Okay!</button>
+          `
+        });
+      } else if (opt === 2) {
+        SoundFX.wrongBuzz();
+        showModal({
+          title: "TRAP MISSED!",
+          headerColor: "#FFD93D",
+          bodyHTML: `
+            <div class="text-4xl">🤨</div>
+            <p class="text-xl font-bold">You don't even know what that is yet! Ask properly👀</p>
+            <button onclick="closeModal()" class="comic-btn bg-[#FFD93D] font-pixel text-xs px-5 py-2.5">Got it</button>
+          `
+        });
+      } else if (opt === 3) {
+        const btn3 = document.getElementById('s4-opt-3');
+        btn3.classList.remove('bg-[#FFF8E7]', 'hover:bg-[#FEF08A]');
+        btn3.classList.add('bg-[#6BCB77]');
+        awardStone(2);
+        document.getElementById('s4-success-area').classList.remove('hidden');
+      }
+    }
+
+    /* ---------------- STAGE 5: ERROR #3 (MY COLLECTION - PART 1) ---------------- */
+    function renderStage5(app) {
+      app.innerHTML = `
+        <div class="comic-window w-full max-w-xl animate-pop">
+          <div class="bg-[#9B5DE5] border-b-4 border-[#18181B] px-5 py-3 flex items-center justify-between">
+            <span class="font-pixel text-xs text-white">ERROR_03 // DATABASE_QUERY</span>
+            <span class="text-xl">📁</span>
+          </div>
+
+          <div class="p-6 sm:p-8 text-center space-y-5">
+            <h1 class="font-pixel text-base sm:text-xl text-[#18181B]">
+              Error#3: My collection
+            </h1>
+            <p class="text-xl font-bold text-[#18181B]">
+              How many Girlfriends do i have?🤔
+            </p>
+
+            <div class="grid grid-cols-2 gap-3.5 max-w-md mx-auto">
+              <button onclick="handleStage5Choice('0')" class="comic-btn bg-[#FFF8E7] hover:bg-[#FEF08A] py-4 text-xl font-pixel">0</button>
+              <button onclick="handleStage5Choice('03122011')" class="comic-btn bg-[#FFF8E7] hover:bg-[#FEF08A] py-4 text-base sm:text-lg font-pixel">03122011</button>
+              <button onclick="handleStage5Choice('14')" class="comic-btn bg-[#FFF8E7] hover:bg-[#FEF08A] py-4 text-xl font-pixel">14</button>
+              <button onclick="handleStage5Choice('1')" class="comic-btn bg-[#FFF8E7] hover:bg-[#FEF08A] py-4 text-xl font-pixel">1</button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function handleStage5Choice(choice) {
+      if (choice === '0' || choice === '03122011') {
+        SoundFX.wrongBuzz();
+        showModal({
+          title: "WRONG COUNT!",
+          headerColor: "#FF6B9D",
+          bodyHTML: `
+            <div class="text-4xl">🙅‍♂️</div>
+            <p class="text-xl font-bold">${choice === '0' ? "Itna bhi akela nahi hu bhai! Try again😂" : "Yeh kya secret passcode daal diya? Wrong number!"}</p>
+            <button onclick="closeModal()" class="comic-btn bg-[#FFD93D] font-pixel text-xs px-5 py-2.5">Try Again</button>
+          `
+        });
+        return;
+      }
+
+      // Save choice ('14' or '1') for Stage 7 Time Travel
+      state.stage5Choice = choice;
+      openMeSpellingModal(choice, 3, 6);
+    }
+
+    // Shared helper for Stage 5 & Stage 7 "M E" spelling modal
+    function openMeSpellingModal(choice, stoneTarget, nextStage) {
+      const promptText = choice === '14'
+        ? "including whom?😌"
+        : "who is she 'ACCORDING TO HIM'?🤔";
+
+      showModal({
+        title: "ANSWER REQUIRED!",
+        headerColor: "#FFD93D",
+        showCloseX: true,
+        bodyHTML: `
+          <p class="text-xl font-bold text-[#18181B]">${promptText}</p>
+          <div id="me-spelling-container"></div>
+          <div id="me-success-banner" class="hidden space-y-3 pt-2 animate-pop">
+            <div class="flex items-center justify-center gap-2 bg-[#DCFCE7] border-2 border-[#18181B] rounded-xl p-2.5">
+              ${getBlackStoneSVG(32, true)}
+              <span class="font-pixel text-xs text-green-800">+1 Black Rock (${stoneTarget}/9)!</span>
+            </div>
+            <button onclick="goToStage(${nextStage})" class="comic-btn bg-[#6BCB77] font-pixel text-xs px-6 py-3">
+              Next Error →
+            </button>
+          </div>
+        `
+      });
+
+      createSpellingPuzzle({
+        containerId: 'me-spelling-container',
+        letters: ['Y', 'M', 'O', 'E', 'U'],
+        groups: [2],
+        onCheck: (word) => {
+          if (word === 'ME') {
+            awardStone(stoneTarget);
+            document.getElementById('me-success-banner').classList.remove('hidden');
+          } else {
+            SoundFX.wrongBuzz();
+            clearSpellingPuzzle();
+          }
+        }
+      });
+    }
+
+    /* ---------------- STAGE 6: ERROR #4 (HIS FAVOURITES) ---------------- */
+    function renderStage6(app) {
+      state.selectedApps = [];
+      const apps = [
+        { name: 'Facebook', icon: '📘', color: 'bg-blue-100' },
+        { name: 'Instagram', icon: '📸', color: 'bg-pink-100' },
+        { name: 'Reddit', icon: '🤖', color: 'bg-orange-100' },
+        { name: 'Discord', icon: '🎮', color: 'bg-indigo-100' },
+        { name: 'YouTube', icon: '▶️', color: 'bg-red-100' },
+        { name: 'Snapchat', icon: '👻', color: 'bg-yellow-100' },
+        { name: 'WhatsApp', icon: '💬', color: 'bg-green-100' }
+      ];
+
+      app.innerHTML = `
+        <div class="comic-window w-full max-w-xl animate-pop">
+          <div class="bg-[#FF6B9D] border-b-4 border-[#18181B] px-5 py-3 flex items-center justify-between">
+            <span class="font-pixel text-xs text-[#18181B]">ERROR_04 // SCREEN_TIME</span>
+            <span class="text-xl">📱</span>
+          </div>
+
+          <div class="p-6 sm:p-8 text-center space-y-5">
+            <h1 class="font-pixel text-base sm:text-xl text-[#18181B]">
+              Error#4: His favourites💖
+            </h1>
+            <p class="text-xl font-bold text-[#18181B]">
+              what are his 3 favourite apps?🤔
+            </p>
+            <p class="text-sm font-semibold text-gray-600">(Select exactly 3 apps)</p>
+
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              ${apps.map(a => `
+                <button
+                  id="app-btn-${a.name}"
+                  onclick="toggleAppSelection('${a.name}')"
+                  class="comic-btn ${a.color} py-3.5 px-3 flex flex-col items-center justify-center gap-1.5 font-bold text-base"
+                >
+                  <span class="text-2xl">${a.icon}</span>
+                  <span>${a.name}</span>
+                </button>
+              `).join('')}
+            </div>
+
+            <div class="pt-2">
+              <button onclick="verifyStage6Apps()" class="comic-btn bg-[#FFD93D] font-pixel text-xs sm:text-sm px-6 py-3.5">
+                Confirm Selection ✓
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function toggleAppSelection(appName) {
+      SoundFX.tilePop();
+      const idx = state.selectedApps.indexOf(appName);
+      const btn = document.getElementById(`app-btn-${appName}`);
+
+      if (idx > -1) {
+        state.selectedApps.splice(idx, 1);
+        btn.classList.remove('ring-4', 'ring-[#18181B]', '!bg-[#6BCB77]');
+      } else {
+        if (state.selectedApps.length >= 3) {
+          // Deselect oldest choice automatically for smooth UX
+          const removed = state.selectedApps.shift();
+          const oldBtn = document.getElementById(`app-btn-${removed}`);
+          if (oldBtn) oldBtn.classList.remove('ring-4', 'ring-[#18181B]', '!bg-[#6BCB77]');
+        }
+        state.selectedApps.push(appName);
+        btn.classList.add('ring-4', 'ring-[#18181B]', '!bg-[#6BCB77]');
+      }
+
+      // Auto-complete immediately if the exact 3 are selected!
+      const correct = ['YouTube', 'Snapchat', 'WhatsApp'];
+      if (state.selectedApps.length === 3 && correct.every(c => state.selectedApps.includes(c))) {
+        setTimeout(completeStage6, 220);
+      }
+    }
+
+    function verifyStage6Apps() {
+      const correct = ['YouTube', 'Snapchat', 'WhatsApp'];
+      if (state.selectedApps.length === 3 && correct.every(c => state.selectedApps.includes(c))) {
+        completeStage6();
+      } else {
+        SoundFX.wrongBuzz();
+        showModal({
+          title: "NOT QUITE!",
+          headerColor: "#FFD93D",
+          bodyHTML: `
+            <div class="text-4xl">📵</div>
+            <p class="text-xl font-bold">
+              ${state.selectedApps.length < 3 ? "Pick 3 apps first!" : "Nope! Those aren't his top 3 most used apps. Try again!"}
+            </p>
+            <button onclick="closeModal()" class="comic-btn bg-[#FFD93D] font-pixel text-xs px-5 py-2.5">Try Again</button>
+          `
+        });
+      }
+    }
+
+    function completeStage6() {
+      awardStone(4);
+      showModal({
+        title: "STALKER ALERT?! +1 BLACK ROCK",
+        headerColor: "#6BCB77",
+        showCloseX: false,
+        bodyHTML: `
+          <div class="flex justify-center">${getBlackStoneSVG(52, true)}</div>
+          <p class="text-xl font-bold text-[#18181B]">
+            you know my most used apps..🙃,but how🤔
+          </p>
+          <div class="bg-[#FFF8E7] border-2 border-[#18181B] rounded-xl p-2 font-pixel text-xs">
+            Black Rock Collected: (4/9)
+          </div>
+          <button onclick="goToStage(7)" class="comic-btn bg-[#6BCB77] font-pixel text-xs px-6 py-3">
+            Next Error →
+          </button>
+        `
+      });
+    }
+
+    /* ---------------- STAGE 7: ERROR #5 (TIME TRAVEL) ---------------- */
+    function renderStage7(app) {
+      const prev = state.stage5Choice || '14';
+      app.innerHTML = `
+        <div class="comic-window w-full max-w-xl animate-pop">
+          <div class="bg-[#9B5DE5] border-b-4 border-[#18181B] px-5 py-3 flex items-center justify-between">
+            <span class="font-pixel text-xs text-white">ERROR_05 // TIME_PARADOX</span>
+            <span class="text-xl">⏳</span>
+          </div>
+
+          <div class="p-6 sm:p-8 text-center space-y-5">
+            <h1 class="font-pixel text-base sm:text-xl text-[#18181B]">
+              Error#5: Time travel👀
+            </h1>
+
+            <!-- Highlighted Callout Box -->
+            <div class="bg-[#FEF08A] border-3 border-[#18181B] rounded-2xl p-4 shadow-[4px_4px_0_#18181B]">
+              <p class="text-lg font-bold text-[#18181B]">
+                one more option is correct here.. wanna click on the other one now?😌
+              </p>
+            </div>
+
+            <p class="text-xl font-bold text-[#18181B]">
+              How many Girlfriends do i have?🤔
+            </p>
+
+            <div class="grid grid-cols-2 gap-3.5 max-w-md mx-auto">
+              <button onclick="handleStage7Choice('0')" class="comic-btn bg-[#FFF8E7] hover:bg-[#FEF08A] py-4 text-xl font-pixel">0</button>
+              <button onclick="handleStage7Choice('03122011')" class="comic-btn bg-[#FFF8E7] hover:bg-[#FEF08A] py-4 text-base sm:text-lg font-pixel">03122011</button>
+              <button onclick="handleStage7Choice('14')" class="comic-btn ${prev === '14' ? 'bg-gray-200 opacity-65' : 'bg-[#FFF8E7] hover:bg-[#FEF08A]'} py-4 text-xl font-pixel relative">
+                14
+                ${prev === '14' ? '<span class="block text-[10px] font-sans text-red-600 font-bold">(Already picked!)</span>' : ''}
+              </button>
+              <button onclick="handleStage7Choice('1')" class="comic-btn ${prev === '1' ? 'bg-gray-200 opacity-65' : 'bg-[#FFF8E7] hover:bg-[#FEF08A]'} py-4 text-xl font-pixel relative">
+                1
+                ${prev === '1' ? '<span class="block text-[10px] font-sans text-red-600 font-bold">(Already picked!)</span>' : ''}
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function handleStage7Choice(choice) {
+      if (choice === state.stage5Choice) {
+        SoundFX.wrongBuzz();
+        showModal({
+          title: "TIME PARADOX PROHIBITED!",
+          headerColor: "#FF6B9D",
+          bodyHTML: `
+            <div class="text-4xl">🚫⏳</div>
+            <p class="text-xl font-bold">
+              You already clicked "${choice}" earlier! Pick the OTHER correct option this time😌
+            </p>
+            <button onclick="closeModal()" class="comic-btn bg-[#FFD93D] font-pixel text-xs px-5 py-2.5">Okay!</button>
+          `
+        });
+        return;
+      }
+
+      if (choice === '0' || choice === '03122011') {
+        SoundFX.wrongBuzz();
+        showModal({
+          title: "STILL WRONG!",
+          headerColor: "#FFD93D",
+          bodyHTML: `
+            <div class="text-4xl">🙅‍♂️</div>
+            <p class="text-xl font-bold">Nope! Choose the other remaining correct option between 14 and 1!</p>
+            <button onclick="closeModal()" class="comic-btn bg-[#FFD93D] font-pixel text-xs px-5 py-2.5">Try Again</button>
+          `
+        });
+        return;
+      }
+
+      // She picked the other valid option!
+      openMeSpellingModal(choice, 5, 8);
+    }
+
+    /* ---------------- STAGE 8: ERROR #6 (NICKNAMES / BHAGYAWAAN) ---------------- */
+    function renderStage8(app) {
+      app.innerHTML = `
+        <div class="comic-window w-full max-w-2xl animate-pop">
+          <div class="bg-[#FFD93D] border-b-4 border-[#18181B] px-5 py-3 flex items-center justify-between">
+            <span class="font-pixel text-xs text-[#18181B]">ERROR_06 // TITLE_CLAIM</span>
+            <span class="text-xl">👑</span>
+          </div>
+
+          <div class="p-6 sm:p-8 text-center space-y-5">
+            <h1 class="font-pixel text-base sm:text-xl text-[#18181B]">
+              Error#6: Nicknames✨️
+            </h1>
+            <p class="text-xl font-bold text-[#18181B]">
+              what should i call you?🤔
+            </p>
+
+            <div id="stage8-puzzle"></div>
+
+            <div id="stage8-success" class="hidden pt-2 space-y-3 animate-pop">
+              <div class="bg-[#DCFCE7] border-3 border-[#18181B] rounded-2xl p-4 space-y-2">
+                <p class="text-xl font-bold text-[#18181B]">Title Unlocked: BHAGYAWAAN! 👑✨️</p>
+                <div class="flex items-center justify-center gap-2">
+                  ${getBlackStoneSVG(30, true)}
+                  <span class="font-pixel text-xs text-green-800">+1 Black Rock (6/9)</span>
+                </div>
+              </div>
+              <button onclick="goToStage(9)" class="comic-btn bg-[#6BCB77] font-pixel text-xs sm:text-sm px-6 py-3.5">
+                Next Error →
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+
+      // Scrambled letters of BHAGYAWAAN (10 letters) + 2 decoys
+      createSpellingPuzzle({
+        containerId: 'stage8-puzzle',
+        letters: ['A', 'G', 'N', 'B', 'Y', 'A', 'H', 'W', 'A', 'A', 'S', 'R'],
+        groups: [10],
+        onCheck: (word) => {
+          if (word === 'BHAGYAWAAN') {
+            awardStone(6);
+            document.getElementById('stage8-success').classList.remove('hidden');
+          } else {
+            SoundFX.wrongBuzz();
+            showModal({
+              title: "SPELLING CHECK!",
+              headerColor: "#FFD93D",
+              bodyHTML: `
+                <p class="text-lg font-bold">Not quite "${word}"! Hint: Starts with B and ends with WAAN 😌</p>
+                <button onclick="closeModal(); clearSpellingPuzzle();" class="comic-btn bg-[#FFD93D] font-pixel text-xs px-5 py-2.5">Try Again</button>
+              `
+            });
+          }
+        }
+      });
+    }
+
+    /* ---------------- STAGE 9: ERROR #7 (ROOT CAUSE ANALYSIS) ---------------- */
+    function renderStage9(app) {
+      app.innerHTML = `
+        <div class="comic-window w-full max-w-xl animate-pop">
+          <div class="bg-[#4D96FF] border-b-4 border-[#18181B] px-5 py-3 flex items-center justify-between">
+            <span class="font-pixel text-xs text-white">ERROR_07 // ROOT_CAUSE</span>
+            <span class="text-xl">🙄</span>
+          </div>
+
+          <div class="p-6 sm:p-8 text-center space-y-5">
+            <h1 class="font-pixel text-base sm:text-xl text-[#18181B]">
+              why is this happening🙄
+            </h1>
+            <p class="text-xl font-bold text-[#18181B]">
+              what caused the website to crash at first place?😏
+            </p>
+
+            <div class="space-y-3 max-w-md mx-auto text-left">
+              <button onclick="handleStage9Choice(1)" class="comic-btn w-full bg-[#FFF8E7] hover:bg-[#FEF08A] p-3.5 text-base sm:text-lg font-bold">
+                1. It was weak
+              </button>
+              <button onclick="handleStage9Choice(2)" class="comic-btn w-full bg-[#FFF8E7] hover:bg-[#FEF08A] p-3.5 text-base sm:text-lg font-bold">
+                2. Moti ho gyi hu
+              </button>
+              <button onclick="handleStage9Choice(3)" class="comic-btn w-full bg-[#FFF8E7] hover:bg-[#FEF08A] p-3.5 text-base sm:text-lg font-bold">
+                3. It was overwhelmed by my cuteness🎀✨️
+              </button>
+              <button onclick="handleStage9Choice(4)" class="comic-btn w-full bg-[#FFF8E7] hover:bg-[#FEF08A] p-3.5 text-base sm:text-lg font-bold">
+                4. Kyuki website ko code aise hi kiya gya hai!😁
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function handleStage9Choice(opt) {
+      if (opt === 1 || opt === 2) {
+        SoundFX.wrongBuzz();
+        showModal({
+          title: "EXCUSE ME?!",
+          headerColor: "#FFD93D",
+          bodyHTML: `
+            <div class="text-4xl">🤨</div>
+            <p class="text-xl font-bold">
+              ${opt === 1 ? "Server ekdum strong tha! Asli wajah kuch aur hai😏" : "Bilkul nahi! Don't say that, pick the real reason🎀"}
+            </p>
+            <button onclick="closeModal()" class="comic-btn bg-[#FFD93D] font-pixel text-xs px-5 py-2.5">Try Again</button>
+          `
+        });
+      } else if (opt === 4) {
+        SoundFX.wrongBuzz();
+        showModal({
+          title: "4TH WALL WARNING!",
+          headerColor: "#FF6B9D",
+          bodyHTML: `
+            <div class="text-4xl">🧱😅</div>
+            <p class="text-xl font-bold">
+              Please dont break the 4th wall.. just go with the flow😅
+            </p>
+            <button onclick="closeModal()" class="comic-btn bg-[#FFD93D] font-pixel text-xs px-5 py-2.5">Okay fine😂</button>
+          `
+        });
+      } else if (opt === 3) {
+        awardStone(7);
+        showModal({
+          title: "FACTS ONLY! +1 BLACK ROCK",
+          headerColor: "#6BCB77",
+          showCloseX: false,
+          bodyHTML: `
+            <div class="flex justify-center">${getBlackStoneSVG(52, true)}</div>
+            <p class="text-xl font-bold">Obviously! Cuteness overload confirmed🎀✨️</p>
+            <div class="bg-[#FFF8E7] border-2 border-[#18181B] rounded-xl p-2 font-pixel text-xs">
+              Black Rock Collected: (7/9)
+            </div>
+            <button onclick="goToStage(10)" class="comic-btn bg-[#6BCB77] font-pixel text-xs px-6 py-3">
+              Next Error →
+            </button>
+          `
+        });
+      }
+    }
+
+    /* ---------------- STAGE 10: ERROR #8 (CHECK THE BOX) ---------------- */
+    function renderStage10(app) {
+      app.innerHTML = `
+        <div class="comic-window w-full max-w-xl animate-pop">
+          <div class="bg-[#FF6B9D] border-b-4 border-[#18181B] px-5 py-3 flex items-center justify-between">
+            <span class="font-pixel text-xs text-[#18181B]">ERROR_08 // PHYSICAL_KEY</span>
+            <span class="text-xl">📦</span>
+          </div>
+
+          <div class="p-6 sm:p-8 text-center space-y-5">
+            <h1 class="font-pixel text-base sm:text-xl text-[#18181B]">
+              check the box!📦
+            </h1>
+            <div class="bg-[#FEF08A] border-3 border-[#18181B] rounded-2xl p-4 shadow-[4px_4px_0_#18181B]">
+              <p class="text-lg sm:text-xl font-bold text-[#18181B]">
+                Turn the box upside down to see the password
+              </p>
+            </div>
+
+            <div id="stage10-puzzle"></div>
+
+            <div id="stage10-success" class="hidden pt-2 space-y-3 animate-pop">
+              <div class="bg-[#DCFCE7] border-3 border-[#18181B] rounded-2xl p-4 space-y-2">
+                <p class="text-xl font-bold text-[#18181B]">Password Accepted: GOOD GIRL! 🌟</p>
+                <div class="flex items-center justify-center gap-2">
+                  ${getBlackStoneSVG(30, true)}
+                  <span class="font-pixel text-xs text-green-800">+1 Black Rock (8/9)</span>
+                </div>
+              </div>
+              <button onclick="goToStage(11)" class="comic-btn bg-[#6BCB77] font-pixel text-xs sm:text-sm px-6 py-3.5">
+                Next Error →
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+
+      // Scrambled letters for "GOOD GIRL" (4 + 4) + decoys
+      createSpellingPuzzle({
+        containerId: 'stage10-puzzle',
+        letters: ['O', 'G', 'R', 'D', 'I', 'O', 'L', 'G', 'B', 'A'],
+        groups: [4, 4],
+        onCheck: (word) => {
+          if (word === 'GOODGIRL') {
+            awardStone(8);
+            document.getElementById('stage10-success').classList.remove('hidden');
+          } else {
+            SoundFX.wrongBuzz();
+            showModal({
+              title: "WRONG PASSWORD!",
+              headerColor: "#FFD93D",
+              bodyHTML: `
+                <p class="text-lg font-bold">Check the bottom of the real gift box again📦👀</p>
+                <button onclick="closeModal(); clearSpellingPuzzle();" class="comic-btn bg-[#FFD93D] font-pixel text-xs px-5 py-2.5">Try Again</button>
+              `
+            });
+          }
+        }
+      });
+    }
+
+    /* ---------------- STAGE 11: ERROR #9 (WHEN I SAY THIS...) ---------------- */
+    function renderStage11(app) {
+      app.innerHTML = `
+        <div class="comic-window w-full max-w-2xl animate-pop">
+          <div class="bg-[#9B5DE5] border-b-4 border-[#18181B] px-5 py-3 flex items-center justify-between">
+            <span class="font-pixel text-xs text-white">ERROR_09 // FINAL_BANTER</span>
+            <span class="text-xl">👉👈</span>
+          </div>
+
+          <div class="p-6 sm:p-8 text-center space-y-5">
+            <h1 class="font-pixel text-sm sm:text-lg text-[#18181B] leading-relaxed">
+              Error#9: when i say this, i wanna hear that👉👈✨️🎀
+            </h1>
+            <p class="text-2xl font-bold text-[#FF6B9D]">
+              kya kar rahe ho?😏
+            </p>
+
+            <div id="stage11-puzzle"></div>
+          </div>
+        </div>
+      `;
+
+      // Letter bank contains all letters needed for BOTH "AAPKO YAAD" (5+4) AND "KUCHH NAHI" (5+4)!
+      // AAPKO YAAD: A, A, P, K, O, Y, A, A, D (4 A's, P, K, O, Y, D)
+      // KUCHH NAHI: K, U, C, H, H, N, A, H, I (K, U, C, 3 H's, N, A, I)
+      const combinedLetters = [
+        'A', 'K', 'P', 'H', 'O', 'Y', 'U', 'A', 'D',
+        'C', 'A', 'H', 'N', 'I', 'A', 'H'
+      ];
+
+      createSpellingPuzzle({
+        containerId: 'stage11-puzzle',
+        letters: combinedLetters,
+        groups: [5, 4],
+        onCheck: (word) => {
+          if (word === 'KUCHHNAHI') {
+            SoundFX.wrongBuzz();
+            showModal({
+              title: "EXCUSE ME?!",
+              headerColor: "#FF6B9D",
+              bodyHTML: `
+                <div class="text-4xl">😑</div>
+                <p class="text-xl font-bold">that what i dont like now..😑</p>
+                <button onclick="closeModal(); clearSpellingPuzzle();" class="comic-btn bg-[#FFD93D] font-pixel text-xs px-5 py-2.5">Try Again</button>
+              `
+            });
+          } else if (word === 'AAPKOYAAD') {
+            openMuchiFollowupModal();
+          } else {
+            SoundFX.wrongBuzz();
+            showModal({
+              title: "NOT QUITE!",
+              headerColor: "#FFD93D",
+              bodyHTML: `
+                <p class="text-lg font-bold">Read the title hint again👉👈✨️🎀</p>
+                <button onclick="closeModal(); clearSpellingPuzzle();" class="comic-btn bg-[#FFD93D] font-pixel text-xs px-5 py-2.5">Try Again</button>
+              `
+            });
+          }
+        }
+      });
+    }
+
+    function openMuchiFollowupModal() {
+      showModal({
+        title: "CONFIRMATION REQUIRED!",
+        headerColor: "#FFD93D",
+        showCloseX: false,
+        bodyHTML: `
+          <p class="text-2xl font-bold text-[#18181B]">Sachi?🤔</p>
+          <div id="muchi-spelling-container"></div>
+          <div id="muchi-success-banner" class="hidden space-y-3 pt-2 animate-pop">
+            <div class="flex items-center justify-center gap-2 bg-[#DCFCE7] border-2 border-[#18181B] rounded-xl p-3">
+              ${getBlackStoneSVG(34, true)}
+              <span class="font-pixel text-xs text-green-800">ALL 9 BLACK ROCKS COLLECTED! (9/9)</span>
+            </div>
+            <button onclick="goToStage(12)" class="comic-btn bg-[#6BCB77] font-pixel text-xs px-6 py-3.5">
+              Go to Repair Machine →
+            </button>
+          </div>
+        `
+      });
+
+      createSpellingPuzzle({
+        containerId: 'muchi-spelling-container',
+        letters: ['H', 'M', 'I', 'U', 'C', 'A', 'N'],
+        groups: [5],
+        onCheck: (word) => {
+          if (word === 'MUCHI') {
+            awardStone(9);
+            document.getElementById('muchi-success-banner').classList.remove('hidden');
+          } else {
+            SoundFX.wrongBuzz();
+            clearSpellingPuzzle();
+          }
+        }
+      });
+    }
+
+    /* ---------------- STAGE 12: REPAIR MACHINE & MECHANICAL LEVER ---------------- */
+    function renderStage12(app) {
+      // Ensure stonesCollected is 9 if user reached here
+      if (state.stonesCollected < 9) state.stonesCollected = 9;
+      updateHUD();
+
+      const remaining = 9 - state.depositedStones;
+
+      app.innerHTML = `
+        <div id="machine-stage-wrapper" class="w-full max-w-3xl space-y-6 animate-pop">
+          <div class="comic-window">
+            <div class="bg-[#18181B] text-[#FFD93D] border-b-4 border-[#18181B] px-5 py-3 flex items-center justify-between">
+              <span class="font-pixel text-xs sm:text-sm">CORE_REPAIR_MACHINE_v98</span>
+              <span class="font-pixel text-xs text-[#6BCB77]">${state.leverPulled ? 'STATUS: FIXED' : 'STATUS: READY'}</span>
+            </div>
+
+            <div class="p-5 sm:p-8 flex flex-col md:flex-row items-center justify-around gap-8 bg-[#FFFDF7]">
+              <!-- Left/Center: Cartoon Repair Machine Unit -->
+              <div class="relative bg-[#CBD5E1] border-4 border-[#18181B] rounded-3xl p-5 w-full max-w-sm shadow-[8px_8px_0_#18181B] space-y-4">
+                <!-- Decorative Gears -->
+                <div class="flex justify-between items-center">
+                  <span id="gear-left" class="text-3xl inline-block ${state.leverPulled ? 'gear-spin-slow' : ''}">⚙️</span>
+                  <span class="font-pixel text-[10px] bg-[#18181B] text-white px-3 py-1 rounded-full">
+                    CHAMBER: ${state.depositedStones}/9
+                  </span>
+                  <span id="gear-right" class="text-3xl inline-block ${state.leverPulled ? 'gear-spin-slow' : ''}">⚙️</span>
+                </div>
+
+                <!-- Drop / Tap Deposit Hopper -->
+                <div
+                  id="machine-hopper"
+                  ondragover="event.preventDefault(); this.classList.add('bg-purple-200')"
+                  ondragleave="this.classList.remove('bg-purple-200')"
+                  ondrop="handleMachineDrop(event)"
+                  onclick="depositOneStone()"
+                  class="bg-[#1E293B] border-4 border-dashed border-[#FFD93D] rounded-2xl p-4 min-h-[135px] flex flex-col items-center justify-center text-center cursor-pointer transition-colors"
+                >
+                  <div class="grid grid-cols-3 gap-2 mb-2">
+                    ${Array.from({ length: 9 }).map((_, idx) =>
+                      idx < state.depositedStones
+                        ? `<div class="animate-pop">${getBlackStoneSVG(28, true)}</div>`
+                        : `<div class="w-7 h-7 rounded-full border-2 border-dashed border-slate-500"></div>`
+                    ).join('')}
+                  </div>
+                  <p class="font-pixel text-[9px] text-[#FFD93D] leading-normal">
+                    ${state.depositedStones < 9
+                      ? 'DROP OR TAP STONES TO DEPOSIT'
+                      : 'CHAMBER FULL! PULL THE LEVER →'}
+                  </p>
+                </div>
+
+                <!-- Machine Gauge -->
+                <div class="bg-white border-3 border-[#18181B] rounded-xl p-2.5 flex items-center justify-between">
+                  <span class="font-pixel text-[9px]">POWER:</span>
+                  <div class="w-40 h-4 bg-gray-200 border-2 border-[#18181B] rounded-full overflow-hidden">
+                    <div
+                      class="h-full transition-all duration-300 ${state.leverPulled ? 'bg-[#6BCB77]' : 'bg-[#FFD93D]'}"
+                      style="width: ${(state.depositedStones / 9) * 100}%"
+                    ></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Right: Big Mechanical Lever -->
+              <div class="flex flex-col items-center justify-center gap-3">
+                <div class="relative w-28 h-48 flex flex-col items-center justify-end">
+                  <!-- Lever Arm -->
+                  <div
+                    id="machine-lever-arm"
+                    onclick="pullRepairLever()"
+                    class="lever-arm ${state.leverPulled ? 'down' : 'up'} cursor-pointer flex flex-col items-center mb-5"
+                    title="${state.depositedStones < 9 ? 'Deposit all 9 stones first!' : 'Pull Lever!'}"
+                  >
+                    <div class="w-11 h-11 rounded-full ${state.depositedStones === 9 ? 'bg-[#FF6B9D] animate-bounce' : 'bg-gray-400'} border-4 border-[#18181B] shadow-[3px_3px_0_#18181B]"></div>
+                    <div class="w-4 h-24 bg-gray-600 border-x-4 border-[#18181B]"></div>
+                  </div>
+                  <!-- Lever Base -->
+                  <div class="w-24 h-10 bg-[#18181B] rounded-t-xl border-4 border-[#18181B]"></div>
+                </div>
+
+                <button
+                  onclick="pullRepairLever()"
+                  ${state.depositedStones < 9 || state.leverPulled ? 'disabled' : ''}
+                  class="comic-btn bg-[#FF6B9D] text-[#18181B] font-pixel text-xs px-4 py-3"
+                >
+                  ${state.leverPulled ? 'LEVER PULLED!' : 'PULL LEVER!'}
+                </button>
+              </div>
+            </div>
+
+            <!-- Tray of Collected Black Stones to Drag or Tap -->
+            ${!state.leverPulled ? `
+              <div class="bg-[#FFF8E7] border-t-4 border-[#18181B] p-4 text-center space-y-2">
+                <p class="font-bold text-sm sm:text-base">
+                  ${remaining > 0
+                    ? `Your Inventory (${remaining} stones left — drag to chamber or tap a stone):`
+                    : 'All 9 stones deposited! Now pull the lever!'}
+                </p>
+                <div class="flex flex-wrap justify-center gap-3 min-h-[42px]">
+                  ${Array.from({ length: remaining }).map((_, i) => `
+                    <div
+                      draggable="true"
+                      ondragstart="event.dataTransfer.setData('text/plain', 'stone')"
+                      onclick="depositOneStone()"
+                      class="cursor-grab active:cursor-grabbing p-1.5 bg-white border-2 border-[#18181B] rounded-xl shadow-[3px_3px_0_#18181B] hover:scale-110 transition-transform"
+                      title="Drag or tap to deposit"
+                    >
+                      ${getBlackStoneSVG(32, true)}
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+            ` : ''}
+          </div>
+
+          <!-- Success Banner After Pulling Lever -->
+          <div id="machine-fixed-banner" class="${state.leverPulled ? '' : 'hidden'} comic-card bg-[#6BCB77] p-6 text-center space-y-4 animate-pop">
+            <h2 class="font-pixel text-lg sm:text-2xl text-[#18181B]">
+              The website has been fixed✅️
+            </h2>
+            <p class="text-lg font-bold text-[#18181B]">
+              Core power restored! Head back to the room and turn the lights on!
+            </p>
+            <button onclick="returnToEntryRepaired()" class="comic-btn bg-[#FFD93D] font-pixel text-xs sm:text-sm px-6 py-4">
+              Return to Entry Switch 💡→
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    function depositOneStone() {
+      if (state.depositedStones < 9 && !state.leverPulled) {
+        state.depositedStones++;
+        SoundFX.tilePop();
+        renderStage12(document.getElementById('app-container'));
+      }
+    }
+
+    function handleMachineDrop(e) {
+      e.preventDefault();
+      depositOneStone();
+    }
+
+    function pullRepairLever() {
+      if (state.depositedStones < 9 || state.leverPulled) return;
+      state.leverPulled = true;
+      SoundFX.machineRumble();
+
+      const wrapper = document.getElementById('machine-stage-wrapper');
+      const leverArm = document.getElementById('machine-lever-arm');
+      const gearL = document.getElementById('gear-left');
+      const gearR = document.getElementById('gear-right');
+
+      if (leverArm) {
+        leverArm.classList.remove('up');
+        leverArm.classList.add('down');
+      }
+      if (gearL) gearL.classList.add('gear-spin-fast');
+      if (gearR) gearR.classList.add('gear-spin-fast');
+      if (wrapper) wrapper.classList.add('shake-intense');
+
+      setTimeout(() => {
+        if (wrapper) wrapper.classList.remove('shake-intense');
+        renderStage12(document.getElementById('app-container'));
+      }, 1750);
+    }
+
+    function returnToEntryRepaired() {
+      state.isWebsiteRepaired = true;
+      goToStage(1);
+    }
+
+    /* ---------------- STAGE 13: GRAND BIRTHDAY WISH SCREEN ---------------- */
+    function renderStage13(app) {
+      startConfetti();
+      SoundFX.startBirthdayChiptune();
+
+      app.innerHTML = `
+        <div class="relative z-20 w-full max-w-5xl py-6 sm:py-10 px-2 sm:px-4 space-y-6 animate-pop">
+          <!-- Top Audio Control Bar -->
+          <div class="flex justify-between items-center bg-white/90 border-3 border-[#18181B] rounded-2xl px-4 py-2 shadow-[4px_4px_0_#18181B]">
+            <span class="font-pixel text-[10px] sm:text-xs text-[#6BCB77]">● LIGHTS: ON | SYSTEM: 100% HEALTHY</span>
+            <button id="bgm-toggle-btn" onclick="handleBgmToggle()" class="comic-btn bg-[#FFD93D] font-pixel text-[10px] px-3 py-1.5">
+              ${SoundFX.getMuted() ? '🔇 Unmute Music' : '🎵 Music: ON'}
+            </button>
+          </div>
+
+          <!-- Grand Header -->
+          <div class="comic-card bg-[#FFD93D] p-6 sm:p-8 text-center">
+            <h1 class="font-pixel text-xl sm:text-3xl text-[#18181B] leading-relaxed">
+              Happiest birthday to you.. 🎂✨️
+            </h1>
+          </div>
+
+          <!-- Two-Column Layout: Birthday Letter + Credits Box -->
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+            <!-- Left 2 Columns: Exact Birthday Letter -->
+            <div class="lg:col-span-2 comic-window">
+              <div class="bg-[#FF6B9D] border-b-4 border-[#18181B] px-5 py-3 flex items-center justify-between">
+                <span class="font-pixel text-xs text-[#18181B]">BIRTHDAY_LETTER.MSG</span>
+                <span class="text-xl">💌</span>
+              </div>
+
+              <div class="p-6 sm:p-8 bg-[#FFFDF7] space-y-5 text-base sm:text-lg leading-relaxed text-[#18181B] font-medium">
+                <p>
+                  Arrey look who finally turned on the lights! Sare 8 error pages solve karke, 14 fake girlfriends ko dodge karke, aur 'Bhagyawaan' title legally claim karke... finally you made it here. 😌✨
+                </p>
+
+                <p>
+                  Sach kahe toh, whether it's our random daily banter, ya fir tumhara classic move..mujhe Snapchat aur WhatsApp pe block kar dena... matlab mujhe block rakhne ka waise bhi koi fayda nahi, prince eventually finds a way to reach Rapunze-uhm..uhm, okay ab example zyada real ho gya🙃. Par haan, agar aaj unblock karne ka mann kare, toh lomdi bahut khush hogi😌.
+                </p>
+
+                <p>
+                  Kahin bhi ghum-fir ke baat wahi aati hai—chahe random silly debates ho ya bas bina kisi reason ke aaram se hasna—it's always fun having you around🎀✨️💖
+                </p>
+
+                <div class="bg-[#FFF8E7] border-3 border-[#18181B] rounded-2xl p-5 space-y-3 shadow-[5px_5px_0_#18181B]">
+                  <p>
+                    Par sach bolu toh.., yeh chota sa glitchy website aur woh gift box? Yeh sab toh bas ek excuse hai.. Asli gift yeh promise hai ki ..
+                  </p>
+                  <p class="font-bold text-lg sm:text-xl text-[#9B5DE5]">
+                    "I’ll always be your best friend, with absolutely no complaints, no demands."
+                  </p>
+                </div>
+
+                <p class="font-pixel text-sm sm:text-base text-center pt-2 text-[#18181B]">
+                  Have the best birthday ever! 🥂🎈
+                </p>
+              </div>
+            </div>
+
+            <!-- Right 1 Column: Retro Credits Box -->
+            <div class="comic-window">
+              <div class="bg-[#4D96FF] border-b-4 border-[#18181B] px-5 py-3 flex items-center justify-between">
+                <span class="font-pixel text-xs text-white">CREDITS.TXT</span>
+                <span class="text-xl">🎬</span>
+              </div>
+
+              <div class="p-5 sm:p-6 bg-[#FFFDF7] space-y-2.5 max-h-[520px] overflow-y-auto">
+                ${[
+                  'Director',
+                  'Producer',
+                  'Coder',
+                  'Illustrator',
+                  'Mechanical Artist',
+                  'Riddle Artist',
+                  'Dialogue Writer',
+                  'UI/UX Architect',
+                  'Sound Designer',
+                  'Bug Creator',
+                  'Bug Fixer',
+                  'Time Travel Consultant',
+                  'Chief Lomdi Officer',
+                  'Chief Cuteness Analyst',
+                  'QA Tester & Supervisor'
+                ].map(role => `
+                  <div class="flex items-center justify-between gap-2 border-b-2 border-dashed border-gray-300 pb-2">
+                    <span class="font-bold text-gray-700 text-xs sm:text-sm">${role}</span>
+                    <span class="font-bold text-xs sm:text-sm bg-[#FFD93D] border-2 border-[#18181B] px-2.5 py-1 rounded-lg whitespace-nowrap shadow-[2px_2px_0_#18181B]">Swami ji✨️🎀</span>
+                  </div>
+                `).join('')}
+
+                <div class="pt-3 text-center">
+                  <p class="font-vt text-xl text-gray-500">100% Handmade Edition</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Subtle Replay Button at Bottom Corner -->
+          <div class="flex justify-end pt-2">
+            <button onclick="resetFullGame()" class="text-xs font-pixel bg-white/80 hover:bg-white border-2 border-[#18181B] px-3 py-2 rounded-xl shadow-[3px_3px_0_#18181B]">
+              ↺ Replay from Start
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    function handleBgmToggle() {
+      const muted = SoundFX.toggleMute();
+      const btn = document.getElementById('bgm-toggle-btn');
+      if (btn) {
+        btn.textContent = muted ? '🔇 Unmute Music' : '🎵 Music: ON';
+      }
+    }
+
+    function resetFullGame() {
+      stopConfetti();
+      SoundFX.stopBgm();
+      state.stage = 1;
+      state.stonesCollected = 0;
+      state.stage5Choice = null;
+      state.isWebsiteRepaired = false;
+      state.switchOn = false;
+      state.selectedApps = [];
+      state.depositedStones = 0;
+      state.leverPulled = false;
+      renderStage();
+    }
+
+    /*************************************************************************
+     * 5. WARM CARTOON CONFETTI ENGINE (STAGE 13)
+     *************************************************************************/
+    let confettiAnimId = null;
+    function startConfetti() {
+      const canvas = document.getElementById('confetti-canvas');
+      canvas.classList.remove('hidden');
+      const ctx = canvas.getContext('2d');
+
+      function resize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      resize();
+      window.addEventListener('resize', resize);
+
+      const colors = ['#FF6B9D', '#FFD93D', '#6BCB77', '#4D96FF', '#9B5DE5'];
+      const pieces = Array.from({ length: 65 }).map(() => ({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height - canvas.height,
+        w: 8 + Math.random() * 8,
+        h: 6 + Math.random() * 6,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        speedY: 1.2 + Math.random() * 2.2,
+        speedX: (Math.random() - 0.5) * 1.4,
+        rot: Math.random() * 360,
+        rotSpeed: (Math.random() - 0.5) * 4
+      }));
+
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        pieces.forEach(p => {
+          p.y += p.speedY;
+          p.x += p.speedX;
+          p.rot += p.rotSpeed;
+
+          if (p.y > canvas.height + 20) {
+            p.y = -15;
+            p.x = Math.random() * canvas.width;
+          }
+
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate((p.rot * Math.PI) / 180);
+          ctx.fillStyle = p.color;
+          ctx.strokeStyle = '#18181B';
+          ctx.lineWidth = 1.5;
+          ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+          ctx.strokeRect(-p.w / 2, -p.h / 2, p.w, p.h);
+          ctx.restore();
+        });
+        confettiAnimId = requestAnimationFrame(draw);
+      }
+      draw();
+    }
+
+    function stopConfetti() {
+      const canvas = document.getElementById('confetti-canvas');
+      canvas.classList.add('hidden');
+      if (confettiAnimId) {
+        cancelAnimationFrame(confettiAnimId);
+        confettiAnimId = null;
+      }
+    }
+
+    // Boot Application
+    window.addEventListener('DOMContentLoaded', () => {
+      renderStage();
+    });
+  </script>
+</body>
+</html>
